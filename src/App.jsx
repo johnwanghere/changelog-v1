@@ -5,29 +5,54 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [posts, setPosts] = useState(new Set());
+  const [inputValue, setInputValue] = useState('');
+
+  const addPost = (data) => {
+    const now = new Date();
+    const newPost = {
+      id: now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour: '2-digit', 
+        minute: '2-digit' 
+      }),
+      data: data
+    };
+    setPosts(prevPosts => new Set([...prevPosts, newPost]));
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <input 
+        className="w-full text-center p-4 m-8"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter' && inputValue.trim()) {
+            addPost(inputValue);
+            setInputValue('');
+          }
+        }}
+        placeholder="Type here to update your daily changelog"
+      />
+
+      <table>
+        <thead>
+          <td><h2 className="md:font-bold text-center">Daily Changelog</h2></td>
+        </thead>
+        <tbody>
+          {Array.from(posts).reverse().map(post => (
+            <tr className="m-4" key={post.id} style={{ display: "grid", gridTemplateColumns: "auto 1fr" }}>
+              <td style={{ 
+                width: "fit-content"
+              }}>{post.id} </td>
+              <td>{post.data}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   )
 }
