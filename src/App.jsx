@@ -24,18 +24,28 @@ function App() {
 
   return (
     <>
-      <input 
-        className="w-full text-center p-4 m-8"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter' && inputValue.trim()) {
+      <div className="flex gap-4 w-full max-w-7xl mx-auto px-4">
+        <input 
+          className="text-center p-4 border w-96 border-blue-700 text-m h-12"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter' && inputValue.trim()) {
+              addPost(inputValue);
+              setInputValue('');
+            }
+          }}
+          placeholder="Type here to update your daily changelog"
+        />
+        <button 
+          className="px-2 text-center p-4 bg-blue-700 w-20 justify-center items-center flex text-white rounded"
+          onClick={(e) => {
             addPost(inputValue);
             setInputValue('');
-          }
-        }}
-        placeholder="Type here to update your daily changelog"
-      />
+          }}
+          >Submit
+        </button>
+      </div>
 
       <table>
         <thead>
