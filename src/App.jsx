@@ -43,7 +43,7 @@ function App() {
         })
       };
 
-      setPosts(prevPosts => new Set([...prevPosts, localPost]));
+      setPosts(prevPosts => new Set([localPost, ...prevPosts]));
       setInputValue('');
     } catch (error) {
       console.error('Error:', error);
@@ -124,7 +124,7 @@ function App() {
           <tr><th><h2 className="md:font-bold text-center">Daily Changelog</h2></th></tr>
         </thead>
         <tbody>
-          {Array.from(posts).reverse().map(post => (
+          {Array.from(posts).map(post => (
             <tr 
               className="m-4" 
               key={post.id}  // Make sure post.id exists and is unique
